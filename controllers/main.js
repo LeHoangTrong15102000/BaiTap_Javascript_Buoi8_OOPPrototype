@@ -56,7 +56,6 @@ showMenuList(); // Gọi hàm show ra giao diện
 // Xây dựng sự kiện cho nút nhấn Increase, show món ăn trong menu lên hóa đơn(Hàm render hóa đơn)
 const showInfoInvoice = (arrInvoice) => {
   let divInvoiceList = getElementId('tbody'); // Thêm thuộc tính hóa đơn vào đây
-  let divTotalMoney = getElementId('tfoot'); // thêm giá trị của thuộc tính thành tiền vào đây
 
   let ketQua = '';
   for (let invoice of arrInvoice) {
@@ -82,16 +81,16 @@ const checkArrInvoice = (invoiceList, monAn) => {
 };
 
 // Xây dựng hàm Thêm món ăn vào hóa đơn
-function addFood(maMonAnClick) {
+const addFood = (maMonAnClick) => {
   for (let monAn of menuList.mnList) {
-    if (monAn.maMonAn == maMonAnClick) {
+    if (monAn.maMonAn === Number(maMonAnClick)) {
       let resultInvoice = checkArrInvoice(invoiceList, monAn);
 
-      let inv = new Invoice();
-      inv.maMonAn = monAn.maMonAn;
-      inv.tenMonAn = monAn.tenMonAn;
-      inv.soLuong = monAn.soLuong;
-      inv.giaTien = monAn.giaTien;
+      // let inv = new Invoice();
+      // inv.maMonAn = monAn.maMonAn;
+      // inv.tenMonAn = monAn.tenMonAn;
+      // inv.soLuong = monAn.soLuong;
+      // inv.giaTien = monAn.giaTien;
 
       if (resultInvoice === false) {
         // Nếu trong hóa đơn chưa có món ăn đó
@@ -119,13 +118,47 @@ function addFood(maMonAnClick) {
 
   // render hóa đơn ra giao diện
   showInfoInvoice(invoiceList);
-}
+
+  // Render ra tổng số tiền
+  showTotalMoney(invoiceList);
+};
 console.log(invoiceList);
 
 window.addFood = addFood;
 
+// Xây dựng hàm tính tổng
+
 // Xây dựng hàm tính tổng số tiền
-const showTotalMoney = (moneyList) => {};
+const showTotalMoney = (moneyList) => {
+  let divTotalMoney = getElementId('tfoot'); // thêm giá trị của thuộc tính thành tiền vào đây
+
+  // Biến kết quả
+  let ketQua = `
+    <tr>
+      <td></td>
+      <td></td>
+      <td class="font-weight-bold">Thành tiền: </td>
+      <td></td>
+    </tr>
+  `;
+
+  ketQua += moneyList.reduce((moneyTotal, item, index) => {
+    // Tạo đối tượng invoice
+    let invoice = new Invoice(
+      item.maMonAn,
+      item.tenMonAn,
+      item.soLuong,
+      item.giaTien
+    );
+
+    moneyTotal += Number(invoice.giaTien);
+
+    return moneyTotal;
+  }, 0);
+
+  divTotalMoney.innerHTML = ketQua;
+  return ketQua;
+};
 
 // Xây dựng hàm giảm số lượng món ăn trong hóa đơn
 const decreaseFood = (event) => {

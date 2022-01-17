@@ -15,26 +15,6 @@ export class InvoiceList {
     this.totalMoney.push(money);
   }
 
-  // Xây dựng hàm render Hóa đơn ra giao diện
-  // renderInvoice() {
-  //     let ketQua = ''
-
-  //     ketQua = this.invoiceList.reduce((invoiceContent, item , index) => {
-  //         invoiceContent += `
-  //             <tr>
-  //                 <td>${item.maMonAn}</td>
-  //                 <td>${item.tenMonAn}</td>
-  //                 <td>${item.soLuong}</td>
-  //                 <td>${item.giaTien}</td>
-  //             </tr>
-  //         `
-  //         return invoiceContent;
-  //     },'')
-
-  //     return ketQua;
-  // }
-
-  // Lấy vào mảng tổng các con số thành tiền trong hóa đơn
   renderTotalMoney() {}
   // Phải lấy ra được cái mảng chứa giá tiền các món trong hóa đơn
   // Xong rồi mới lập qua cái mảng đó tính tổng rồi mới để hiện ra UI
